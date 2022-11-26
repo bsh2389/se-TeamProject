@@ -29,6 +29,7 @@ namespace TP
         {
             try
             {
+                
                 string sqltxt = "select * from 제품";
                 OracleConnection conn = new OracleConnection(DB_Server_Info);
                 conn.Open();
@@ -43,6 +44,22 @@ namespace TP
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            //검색부분
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            //save 부분
+        }
+
+        private void Order_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            //닫혔을때 save 하는지 물어보는 부분 
+            MessageBox.Show("저장하시겠습니까?");
         }
     }
 }
