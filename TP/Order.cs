@@ -23,12 +23,26 @@ namespace TP
         {
 
         }
-        private string DB_Server_Info = "Data Source=localhost:1521/xe;" +
+        private string DB_Server_Info = "Data Source = localhost;" +
             "User ID = system; Password = 1;";
         private void Order_Load(object sender, EventArgs e)
         {
-            Oracle.ManagedDataAccess.Client.OracleConnection conn = new Oracle.ManagedDataAccess.Client.OracleConnection(DB_Server_Info);
-            conn.Open();
+            try
+            {
+                string sqltxt = "select * from 제품";
+                OracleConnection conn = new OracleConnection(DB_Server_Info);
+                conn.Open();
+                OracleDataAdapter adapt = new OracleDataAdapter();
+                adapt.SelectCommand = new OracleCommand(sqltxt, conn);
+                DataSet ds = new DataSet();
+                adapt.Fill(ds);
+                dataGridView1.DataSource = ds.Tables[0].DefaultView;
+                conn.Close();
+            }
+            catch (OracleException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }
