@@ -81,16 +81,19 @@ namespace TP
             string strSelect = "SELECT * from 회원 where 회원아이디 = " +$"'{id}'";
             OracleCommand cmd = new OracleCommand(sqltxt, conn);
             OracleDataReader reader = cmd.ExecuteReader();
+            
 
             if (reader.Read())
             {
+                string db_id = reader["회원아이디"].ToString().Trim();
+                string db_pw = reader["회원비번"].ToString().Trim();
                 if (textBox1.Text == IdPlaceholder || textBox2.Text == PwPlaceholder)
                 {
-                    MessageBox.Show("ID 또는 Password를입력하세요...");
+                    MessageBox.Show("ID 또는 Password를입력하세요.");
                 }
-                else if (reader["회원아이디"].ToString() == id)
+                else if (db_id == id)
                 {
-                    if (reader["회원비번"].ToString() == pw)
+                    if (db_pw == pw)
                     {
                         MessageBox.Show("로그인에 성공했습니다.");
                         this.Close();
@@ -101,7 +104,7 @@ namespace TP
                     }
                 }
                 else
-                {
+                {                 
                     MessageBox.Show("사용자 정보가 없습니다.");
                 }
             }
