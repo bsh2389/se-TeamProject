@@ -19,7 +19,7 @@ namespace TP
 
         private void Main_Load(object sender, EventArgs e)
         {
-            Form form = new Login();
+            Form form = new Login(this);
             form.ShowDialog();
         }
 

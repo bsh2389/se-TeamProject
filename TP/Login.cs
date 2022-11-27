@@ -14,6 +14,7 @@ namespace TP
 {
     public partial class Login : Form
     {
+        Main main;
         private string DB_Server_Info = "Data Source = localhost;" +
            "User ID = system; Password = 1;";
 
@@ -23,10 +24,10 @@ namespace TP
         const string IdPlaceholder = "아이디";
         const string PwPlaceholder = "비밀번호";
 
-        public Login()
+        public Login(Main main)
         {
             InitializeComponent();
-
+            this.main = main;
             txtList = new TextBox[] { textBox1, textBox2 };
             foreach (var txt in txtList)
             {
@@ -110,6 +111,11 @@ namespace TP
             }
           
             conn.Close();
+        }
+
+        private void Login_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            main.Close();      
         }
     }
 }
