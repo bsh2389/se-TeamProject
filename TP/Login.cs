@@ -72,11 +72,8 @@ namespace TP
             DataSet ds = new DataSet();
 
             string sqltxt = "select * from 회원";
-            OracleConnection conn = new OracleConnection(DB_Server_Info);
+            OracleConnection conn = new OracleConnection(DB_Server_Info); //db 연결
             conn.Open();
-            //OracleDataAdapter adapt = new OracleDataAdapter();
-            //adapt.SelectCommand = new OracleCommand(sqltxt, conn);
-            //adapt.Fill(ds);
             string id = textBox1.Text;
             string pw = textBox2.Text;
             string strSelect = "SELECT * from 회원 where 회원아이디 = " +$"'{id}'";
@@ -86,7 +83,7 @@ namespace TP
 
             if (reader.Read())
             {
-                string db_id = reader["회원아이디"].ToString().Trim();
+                string db_id = reader["회원아이디"].ToString().Trim(); //db상 아이디 비번뒤 공백 삭제
                 string db_pw = reader["회원비번"].ToString().Trim();
                 if (textBox1.Text == IdPlaceholder || textBox2.Text == PwPlaceholder)
                 {
