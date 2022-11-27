@@ -77,6 +77,7 @@
             this.radioButton1.TabStop = true;
             this.radioButton1.Text = "음료";
             this.radioButton1.UseVisualStyleBackColor = true;
+            this.radioButton1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
             // 
             // radioButton2
             // 
@@ -88,6 +89,7 @@
             this.radioButton2.TabIndex = 3;
             this.radioButton2.Text = "라면";
             this.radioButton2.UseVisualStyleBackColor = true;
+            this.radioButton2.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
             // 
             // radioButton3
             // 
@@ -99,6 +101,7 @@
             this.radioButton3.TabIndex = 4;
             this.radioButton3.Text = "과자";
             this.radioButton3.UseVisualStyleBackColor = true;
+            this.radioButton3.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
             // 
             // panel1
             // 
@@ -189,7 +192,6 @@
             this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
             this.dataGridView1.Size = new System.Drawing.Size(768, 447);
             this.dataGridView1.TabIndex = 11;
-            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // Order
             // 
@@ -205,7 +207,6 @@
             this.Name = "Order";
             this.Text = "Order";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Order_FormClosed);
-            this.Load += new System.EventHandler(this.Order_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);

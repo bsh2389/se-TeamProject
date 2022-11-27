@@ -14,34 +14,16 @@ namespace TP
 {
     public partial class Order : Form
     {
+        private string DB_Server_Info = "Data Source = localhost;" +
+           "User ID = system; Password = 1;";
+        private string categori = "";
+
         public Order()
         {
             InitializeComponent();
-        }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-        private string DB_Server_Info = "Data Source = localhost;" +
-            "User ID = system; Password = 1;";
-        private void Order_Load(object sender, EventArgs e)
-        {
-            string categori ="";
-            if (radioButton1.Checked == true)
-            {
-                categori = radioButton1.Text;
-            }else if (radioButton2.Checked == true)
-            {
-                categori = radioButton2.Text;
-            }
-            else
-            {
-                categori = radioButton3.Text;
-            }
             try
             {
-                
+                categori = radioButton1.Text;
                 string sqltxt = "select * from 제품";
                 OracleConnection conn = new OracleConnection(DB_Server_Info);
                 conn.Open();
@@ -49,7 +31,9 @@ namespace TP
                 adapt.SelectCommand = new OracleCommand(sqltxt, conn);
                 DataSet ds = new DataSet();
                 adapt.Fill(ds);
-               
+                DataTable dt = ds.Tables[0];
+
+                dt.DefaultView.RowFilter = $"카테고리 ='{categori}'";
                 dataGridView1.AllowUserToAddRows = false; //빈레코드 표시x
                 var chkCol = new DataGridViewCheckBoxColumn
                 {
@@ -57,11 +41,11 @@ namespace TP
                     HeaderText = "선택"
                 };
                 dataGridView1.Columns.Add(chkCol);
-                dataGridView1.DataSource = ds.Tables[0].DefaultView;   //데이터 추가 부분
+                dataGridView1.DataSource = dt;   //데이터 추가 부분
 
 
                 //크기 조절부분 
-                dataGridView1.Columns[0].Width = 35; 
+                dataGridView1.Columns[0].Width = 35;
 
 
                 //dataGridView1.ReadOnly = true; //전부 읽기 전용           
@@ -82,6 +66,8 @@ namespace TP
             }
         }
 
+        
+       
         private void button2_Click(object sender, EventArgs e)
         {
             //검색부분
@@ -96,6 +82,29 @@ namespace TP
         {
             //닫혔을때 save 하는지 물어보는 부분 
             MessageBox.Show("저장하시겠습니까?"); //예,아니요,취소 부분 되게 
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {   //라디오 버튼 클릭시 dataGridView 다시 띄우는거 미구현 
+           
+            if (radioButton1.Checked == true)
+            {
+                categori = radioButton1.Text;
+                dataGridView1.Update();
+                dataGridView1.Refresh();
+            }
+            else if (radioButton2.Checked == true)
+            {
+                categori = radioButton2.Text;
+                dataGridView1.Update();
+                dataGridView1.Refresh();
+            }
+            else
+            {
+                categori = radioButton3.Text;
+                dataGridView1.Update();
+                dataGridView1.Refresh();
+            }
         }
     }
 }
