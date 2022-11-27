@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Oracle.ManagedDataAccess;
+using Oracle.ManagedDataAccess.Client;
 
 namespace TP
 {
@@ -66,7 +68,45 @@ namespace TP
 
         private void button1_Click(object sender, EventArgs e)
         {
-            this.Close();
+            DataSet ds = new DataSet();
+
+            string sqltxt = "select * from 회원";
+            OracleConnection conn = new OracleConnection(DB_Server_Info);
+            conn.Open();
+            //OracleDataAdapter adapt = new OracleDataAdapter();
+            //adapt.SelectCommand = new OracleCommand(sqltxt, conn);
+            //adapt.Fill(ds);
+            string id = textBox1.Text;
+            string pw = textBox2.Text;
+            string strSelect = "SELECT * from 회원 where 회원아이디 = " +$"'{id}'";
+            OracleCommand cmd = new OracleCommand(sqltxt, conn);
+            OracleDataReader reader = cmd.ExecuteReader();
+
+            if (reader.Read())
+            {
+                if (textBox1.Text == IdPlaceholder || textBox2.Text == PwPlaceholder)
+                {
+                    MessageBox.Show("ID 또는 Password를입력하세요...");
+                }
+                else if (reader["회원아이디"].ToString() == id)
+                {
+                    if (reader["회원비번"].ToString() == pw)
+                    {
+                        MessageBox.Show("로그인에 성공했습니다.");
+                        this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("잘못된 비밀번호 입니다.");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("사용자 정보가 없습니다.");
+                }
+            }
+          
+            conn.Close();
         }
     }
 }
