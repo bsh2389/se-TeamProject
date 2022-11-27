@@ -16,22 +16,28 @@ namespace TP
     {
         private string DB_Server_Info = "Data Source = localhost;" +
            "User ID = system; Password = 1;";
-        private string categori = "";
+        private string categori = "음료";
 
         public Order()
         {
             InitializeComponent();
+            dataview();
+        }
+        private void dataview()
+        {
             try
             {
-                categori = radioButton1.Text;
                 string sqltxt = "select * from 제품";
                 OracleConnection conn = new OracleConnection(DB_Server_Info);
                 conn.Open();
                 OracleDataAdapter adapt = new OracleDataAdapter();
                 adapt.SelectCommand = new OracleCommand(sqltxt, conn);
                 DataSet ds = new DataSet();
+                DataTable dt = new DataTable();
                 adapt.Fill(ds);
-                DataTable dt = ds.Tables[0];
+                dt.Reset();
+                dt = ds.Tables[0];
+                dataGridView1.Columns.Clear();
 
                 dt.DefaultView.RowFilter = $"카테고리 ='{categori}'";
                 dataGridView1.AllowUserToAddRows = false; //빈레코드 표시x
@@ -42,8 +48,8 @@ namespace TP
                 };
                 dataGridView1.Columns.Add(chkCol);
                 dataGridView1.DataSource = dt;   //데이터 추가 부분
-                dataGridView1.Columns.Add("발주량","");
-                dataGridView1.Columns.Add("비고", "");
+                dataGridView1.Columns.Add("발주량", "발주량");
+                dataGridView1.Columns.Add("비고", "비고");
 
                 //크기 조절부분 
                 dataGridView1.Columns[0].Width = 35;
@@ -58,7 +64,6 @@ namespace TP
                 dataGridView1.Columns[6].ReadOnly = true;
                 dataGridView1.Columns[7].ReadOnly = true;
 
-
                 conn.Close();
             }
             catch (OracleException ex)
@@ -66,7 +71,6 @@ namespace TP
                 MessageBox.Show(ex.Message);
             }
         }
-
         
        
         private void button2_Click(object sender, EventArgs e)
@@ -86,25 +90,22 @@ namespace TP
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
-        {   //라디오 버튼 클릭시 dataGridView 다시 띄우는거 미구현 
-           
+        {   
             if (radioButton1.Checked == true)
             {
-                categori = radioButton1.Text;
-                dataGridView1.Update();
-                dataGridView1.Refresh();
+                categori = radioButton1.Text;               
+                dataview();
+                
             }
             else if (radioButton2.Checked == true)
             {
                 categori = radioButton2.Text;
-                dataGridView1.Update();
-                dataGridView1.Refresh();
+                dataview();
             }
             else
             {
-                categori = radioButton3.Text;
-                dataGridView1.Update();
-                dataGridView1.Refresh();
+                categori = radioButton3.Text;    
+                dataview();
             }
         }
     }
