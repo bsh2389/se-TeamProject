@@ -12,6 +12,10 @@ namespace TP
 {
     public partial class Login : Form
     {
+        private string DB_Server_Info = "Data Source = localhost;" +
+           "User ID = system; Password = 1;";
+
+
         public bool test = false;
         TextBox[] txtList;
         const string IdPlaceholder = "아이디";

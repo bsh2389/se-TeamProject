@@ -42,7 +42,8 @@ namespace TP
                 };
                 dataGridView1.Columns.Add(chkCol);
                 dataGridView1.DataSource = dt;   //데이터 추가 부분
-
+                dataGridView1.Columns.Add("발주량","");
+                dataGridView1.Columns.Add("비고", "");
 
                 //크기 조절부분 
                 dataGridView1.Columns[0].Width = 35;
