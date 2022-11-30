@@ -80,14 +80,16 @@ namespace TP
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (Convert.ToBoolean(dataGridView1.Rows[dataGridView1.RowCount].Cells["chk"].Value))
+            if (Convert.ToBoolean(dataGridView1.Rows[dataGridView1.Rows.Count].Cells["chk"].Value))
             {
-                dataGridView1.Rows[dataGridView1.RowCount].DefaultCellStyle.BackColor = Color.Yellow;
+                dataGridView1.Rows[dataGridView1.Rows.Count].DefaultCellStyle.BackColor = Color.Yellow;
             }
             else
             {
-                dataGridView1.Rows[dataGridView1.RowCount].DefaultCellStyle.BackColor = Color.White;
+                dataGridView1.Rows[dataGridView1.Rows.Count].DefaultCellStyle.BackColor = Color.White;
             }
+
+
             try
             {
                 string sqltxt = "insert ";
