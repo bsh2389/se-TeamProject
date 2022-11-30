@@ -80,6 +80,26 @@ namespace TP
 
         private void button1_Click(object sender, EventArgs e)
         {
+            if (Convert.ToBoolean(dataGridView1.Rows[dataGridView1.RowCount].Cells["chk"].Value))
+            {
+                dataGridView1.Rows[dataGridView1.RowCount].DefaultCellStyle.BackColor = Color.Yellow;
+            }
+            else
+            {
+                dataGridView1.Rows[dataGridView1.RowCount].DefaultCellStyle.BackColor = Color.White;
+            }
+            try
+            {
+                string sqltxt = "insert ";
+                OracleConnection conn = new OracleConnection(DB_Server_Info);
+                conn.Open();
+                OracleDataAdapter adapt = new OracleDataAdapter();
+                adapt.SelectCommand = new OracleCommand(sqltxt, conn);
+            }
+            catch (OracleException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
             //save 부분
         }
 
