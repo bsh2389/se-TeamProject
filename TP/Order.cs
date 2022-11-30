@@ -80,13 +80,17 @@ namespace TP
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (Convert.ToBoolean(dataGridView1.Rows[dataGridView1.Rows.Count].Cells["chk"].Value))
+            for(int i = 0; i < dataGridView1.Rows.Count; i++)
             {
-                dataGridView1.Rows[dataGridView1.Rows.Count].DefaultCellStyle.BackColor = Color.Yellow;
-            }
-            else
-            {
-                dataGridView1.Rows[dataGridView1.Rows.Count].DefaultCellStyle.BackColor = Color.White;
+                if (Convert.ToBoolean(dataGridView1.Rows[i].Cells["chk"].Value)) //체크된 데이터 선택 부분
+                {
+                    dataGridView1.Rows[i].DefaultCellStyle.BackColor = Color.Yellow; 
+                }
+                else
+                {
+                    dataGridView1.Rows[i].DefaultCellStyle.BackColor = Color.White;
+                }
+
             }
 
 
