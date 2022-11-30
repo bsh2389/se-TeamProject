@@ -84,6 +84,19 @@ namespace TP
             {
                 if (Convert.ToBoolean(dataGridView1.Rows[i].Cells["chk"].Value)) //체크된 데이터 선택 부분
                 {
+                    try
+                    {
+                        string sqltxt = "insert into 주문 + values";
+                        OracleConnection conn = new OracleConnection(DB_Server_Info);
+                        conn.Open();
+
+                        OracleCommand oc = new OracleCommand();
+                        oc.CommandText = sqltxt + "('" +"'"+ dataGridView1.Rows[i].Cells[2]+")"; //발주 번호 //주문고객// 발주제품//수량//배송지 // 주문일자// 
+                    }
+                    catch (OracleException ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
                     dataGridView1.Rows[i].DefaultCellStyle.BackColor = Color.Yellow; 
                 }
                 else
@@ -92,18 +105,7 @@ namespace TP
                 }
 
             }
-            try
-            {
-                string sqltxt = "insert ";
-                OracleConnection conn = new OracleConnection(DB_Server_Info);
-                conn.Open();
-                OracleDataAdapter adapt = new OracleDataAdapter();
-                adapt.SelectCommand = new OracleCommand(sqltxt, conn);
-            }
-            catch (OracleException ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            
             //save 부분
         }
 
