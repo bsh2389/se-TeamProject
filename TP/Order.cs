@@ -92,8 +92,6 @@ namespace TP
                 }
 
             }
-
-
             try
             {
                 string sqltxt = "insert ";
