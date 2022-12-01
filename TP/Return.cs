@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using Oracle.ManagedDataAccess.Client;
+using System;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Oracle.ManagedDataAccess;
-using Oracle.ManagedDataAccess.Client;
 
 namespace TP
 {
@@ -71,8 +66,8 @@ namespace TP
                 MessageBox.Show(ex.Message);
             }
         }
-        
-       
+
+
         private void button2_Click(object sender, EventArgs e)
         {
             //검색부분
@@ -80,11 +75,24 @@ namespace TP
 
         private void button1_Click(object sender, EventArgs e)
         {
-            for(int i = 0; i < dataGridView1.Rows.Count; i++)
+            for (int i = 0; i < dataGridView1.Rows.Count; i++)
             {
                 if (Convert.ToBoolean(dataGridView1.Rows[i].Cells["chk"].Value)) //체크된 데이터 선택 부분
                 {
-                    dataGridView1.Rows[i].DefaultCellStyle.BackColor = Color.Yellow; 
+                    try
+                    {
+                        string sqltxt = "insert into 주문 + values";
+                        OracleConnection conn = new OracleConnection(DB_Server_Info);
+                        conn.Open();
+
+                        OracleCommand oc = new OracleCommand();
+                        oc.CommandText = sqltxt + "('" + "'" + dataGridView1.Rows[i].Cells[2] + ")"; //발주 번호 //주문고객// 발주제품//수량//배송지 // 주문일자// 
+                    }
+                    catch (OracleException ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                    dataGridView1.Rows[i].DefaultCellStyle.BackColor = Color.Yellow;
                 }
                 else
                 {
@@ -92,18 +100,7 @@ namespace TP
                 }
 
             }
-            try
-            {
-                string sqltxt = "insert ";
-                OracleConnection conn = new OracleConnection(DB_Server_Info);
-                conn.Open();
-                OracleDataAdapter adapt = new OracleDataAdapter();
-                adapt.SelectCommand = new OracleCommand(sqltxt, conn);
-            }
-            catch (OracleException ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+
             //save 부분
         }
 
@@ -114,12 +111,12 @@ namespace TP
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
-        {   
+        {
             if (radioButton1.Checked == true)
             {
-                categori = radioButton1.Text;               
+                categori = radioButton1.Text;
                 dataview();
-                
+
             }
             else if (radioButton2.Checked == true)
             {
@@ -128,7 +125,7 @@ namespace TP
             }
             else
             {
-                categori = radioButton3.Text;    
+                categori = radioButton3.Text;
                 dataview();
             }
         }
