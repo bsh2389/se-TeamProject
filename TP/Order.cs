@@ -52,7 +52,7 @@ namespace TP
                 dataGridView1.Columns.Add("비고", "비고");
 
                 //크기 조절부분 
-                dataGridView1.Columns[0].Width = 35;
+                dataGridView1.Columns[0].Width = 40;
 
 
                 //dataGridView1.ReadOnly = true; //전부 읽기 전용           
@@ -63,6 +63,7 @@ namespace TP
                 dataGridView1.Columns[5].ReadOnly = true;
                 dataGridView1.Columns[6].ReadOnly = true;
                 dataGridView1.Columns[7].ReadOnly = true;
+
 
                 conn.Close();
             }
