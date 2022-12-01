@@ -95,9 +95,8 @@
     <Compile Include="Return.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include=".Designer.cs">
+    <Compile Include="Return.Designer.cs">
       <DependentUpon>Return.cs</DependentUpon>
-      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Order.cs">
       <SubType>Form</SubType>
