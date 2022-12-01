@@ -94,9 +94,14 @@ namespace TP
                     if (db_pw == pw)
                     {
                         ls = 1;
-                        if (checkBox1.Checked)
+                        if (checkBox1.Checked==true)
                         {
-                            Properties.Settings.Default.LoginIDSave = id;
+                            Properties.Settings.Default.LoginIDSave = id; 
+                            Properties.Settings.Default.Save();
+                        }
+                        else
+                        {
+                            Properties.Settings.Default.LoginIDSave = IdPlaceholder;
                             Properties.Settings.Default.Save();
                         }
                         MessageBox.Show("로그인에 성공했습니다.");
@@ -124,16 +129,13 @@ namespace TP
 
         private void Login_Load(object sender, EventArgs e)
         {
-            textBox1.Text = Properties.Settings.Default.LoginIDSave;
-            textBox1.ForeColor = Color.Black;
-        }
-
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBox1.Checked)
+            if (Properties.Settings.Default.LoginIDSave != IdPlaceholder)
             {
-               
+                checkBox1.Checked = true;
+                textBox1.Text = Properties.Settings.Default.LoginIDSave;
+                textBox1.ForeColor = Color.Black;
             }
+            
         }
     }
 }
