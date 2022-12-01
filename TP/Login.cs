@@ -94,6 +94,11 @@ namespace TP
                     if (db_pw == pw)
                     {
                         ls = 1;
+                        if (checkBox1.Checked)
+                        {
+                            Properties.Settings.Default.LoginIDSave = id;
+                            Properties.Settings.Default.Save();
+                        }
                         MessageBox.Show("로그인에 성공했습니다.");
                         this.Close();
                     }
@@ -115,6 +120,20 @@ namespace TP
         {
             if (ls != 1) //로그인 성공하면 그냥 메인문도 닫히기 때문에 로그인 성공하지 못한상태에서 닫을시 메인문도 닫힘
                 main.Close();      
+        }
+
+        private void Login_Load(object sender, EventArgs e)
+        {
+            textBox1.Text = Properties.Settings.Default.LoginIDSave;
+            textBox1.ForeColor = Color.Black;
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked)
+            {
+               
+            }
         }
     }
 }
