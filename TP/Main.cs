@@ -28,5 +28,21 @@ namespace TP
             Form form = new Order();
             form.ShowDialog();
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Form form = new Return();
+            form.ShowDialog();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            Form form = new setting(this);
+            form.ShowDialog();
+        }
     }
 }
