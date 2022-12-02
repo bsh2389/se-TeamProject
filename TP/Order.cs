@@ -63,7 +63,7 @@ namespace TP
                 dataGridView1.Columns[5].ReadOnly = true;
                 dataGridView1.Columns[6].ReadOnly = true;
                 dataGridView1.Columns[7].ReadOnly = true;
-
+                //readonly 부분 잘 작동안하는듯
 
                 conn.Close();
             }
@@ -79,7 +79,7 @@ namespace TP
             //검색부분
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e) //save 부분
         {
             for(int i = 0; i < dataGridView1.Rows.Count; i++)
             {
@@ -98,7 +98,7 @@ namespace TP
                     {
                         MessageBox.Show(ex.Message);
                     }
-                    dataGridView1.Rows[i].DefaultCellStyle.BackColor = Color.Yellow; 
+                    dataGridView1.Rows[i].DefaultCellStyle.BackColor = Color.Yellow;  //선택된 데이터 노란색으로 보임
                 }
                 else
                 {
@@ -106,8 +106,7 @@ namespace TP
                 }
 
             }
-            
-            //save 부분
+      
         }
 
         private void Order_FormClosed(object sender, FormClosedEventArgs e)
