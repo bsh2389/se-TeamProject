@@ -34,5 +34,29 @@ namespace TP.Properties {
                 this["LoginIDSave"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string userID {
+            get {
+                return ((string)(this["userID"]));
+            }
+            set {
+                this["userID"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int Orderindex {
+            get {
+                return ((int)(this["Orderindex"]));
+            }
+            set {
+                this["Orderindex"] = value;
+            }
+        }
     }
 }
