@@ -137,7 +137,7 @@ namespace TP
                     {
                        MessageBox.Show(ex.Message);
                     }
-                    Properties.Settings.Default.Orderindex += 1;
+                    Properties.Settings.Default.Orderindex += 1; //발주번호 값증가시키기
                     dataGridView1.Rows[i].DefaultCellStyle.BackColor = Color.Yellow;  //선택된 데이터 노란색으로 보임
                 }
                 else
