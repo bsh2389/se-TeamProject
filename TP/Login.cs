@@ -66,7 +66,8 @@ namespace TP
                 }
             }
         }
-        private int ls = 0;
+        private int ls = 0; //로그인 성공 여부 
+        private int ll = 0; //사용자 없는지 유무
         private void button1_Click(object sender, EventArgs e)
         {
             DataSet ds = new DataSet();
@@ -76,28 +77,31 @@ namespace TP
             conn.Open();
             string id = textBox1.Text;
             string pw = textBox2.Text;
-            string strSelect = "SELECT * from 회원 where 회원아이디 = " +$"'{id}'";
             OracleCommand cmd = new OracleCommand(sqltxt, conn);
             OracleDataReader reader = cmd.ExecuteReader();
             
 
-            if (reader.Read())
+            while(reader.Read())
             {
                 string db_id = reader["회원아이디"].ToString().Trim(); //db상 아이디 비번뒤 공백 삭제
                 string db_pw = reader["회원비번"].ToString().Trim();
                 if (textBox1.Text == IdPlaceholder || textBox2.Text == PwPlaceholder)
                 {
+                    ll = 0;
                     MessageBox.Show("ID 또는 Password를입력하세요.");
                 }
                 else if (db_id == id)
                 {
                     if (db_pw == pw)
                     {
+                        Properties.Settings.Default.userID = id; //나중에 db상 주소지 찾을때 사용
+                        Properties.Settings.Default.Save();
                         ls = 1;
-                        if (checkBox1.Checked==true)
+                        
+                        if (checkBox1.Checked==true) //아이디 저장할지 여부 
                         {
-                            Properties.Settings.Default.LoginIDSave = id; 
-                            Properties.Settings.Default.Save();
+                            Properties.Settings.Default.LoginIDSave = id; //저장시 세팅값에 저장됨
+                            Properties.Settings.Default.Save();                           
                         }
                         else
                         {
@@ -106,18 +110,24 @@ namespace TP
                         }
                         MessageBox.Show("로그인에 성공했습니다.");
                         this.Close();
+                        break;
                     }
                     else
                     {
                         MessageBox.Show("잘못된 비밀번호 입니다.");
                     }
+                    ll = 0;
                 }
                 else
-                {                 
-                    MessageBox.Show("사용자 정보가 없습니다.");
+                {
+                    ll = 1;
                 }
             }
-          
+            if(ll == 1)
+            {
+                ll = 0;
+                MessageBox.Show("없는 사용자 입니다.");               
+            }
             conn.Close();
         }
 
