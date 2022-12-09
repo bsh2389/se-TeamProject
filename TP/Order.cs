@@ -16,7 +16,7 @@ namespace TP
     {
         private string DB_Server_Info = "Data Source = localhost;" +
            "User ID = system; Password = 1;";
-        private string categori = "음료";
+        private string categori = "음료"; 
         private string label = "제품명";
         public Order()
         {
@@ -71,7 +71,7 @@ namespace TP
         }
 
 
-        private void button2_Click(object sender, EventArgs e)
+        private void button2_Click(object sender, EventArgs e) //검색 부분
         {
             label = comboBox1.Text;
             find();
