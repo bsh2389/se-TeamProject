@@ -16,7 +16,7 @@ namespace TP
     {
         private string DB_Server_Info = "Data Source = localhost;" +
            "User ID = system; Password = 1;";
-        private string categori = "음료"; 
+        private string categori = "음료";
         private string label = "제품명";
         public Order()
         {
@@ -79,14 +79,14 @@ namespace TP
 
         private void button1_Click(object sender, EventArgs e) //save 부분
         {
-            for(int i = 0; i < dataGridView1.Rows.Count; i++)
+            for (int i = 0; i < dataGridView1.Rows.Count; i++)
             {
                 if (Convert.ToBoolean(dataGridView1.Rows[i].Cells["chk"].Value)) //체크된 데이터 선택 부분
                 {
                     try
                     {
                         string sqlctxt = "select * from 회원";
-                        OracleConnection conn = new OracleConnection(DB_Server_Info);                      
+                        OracleConnection conn = new OracleConnection(DB_Server_Info);
                         conn.Open();
                         OracleCommand cmd = new OracleCommand(sqlctxt, conn);
                         OracleDataReader reader = cmd.ExecuteReader();
@@ -100,8 +100,8 @@ namespace TP
                                 break;
                             }
                         }
-                        
-                        
+
+
                         //DateTime.Now.ToString("yyyy-MM-dd"); 현재 시각
                         OracleCommand oc = new OracleCommand();
                         oc.Connection = conn;
@@ -114,14 +114,14 @@ namespace TP
                         oc.Parameters.Add(new OracleParameter("배송지", user_address));
                         oc.Parameters.Add(new OracleParameter("주문일자", DateTime.Now.ToString("yyyy-MM-dd").ToString()));
                         //발주 번호 //주문고객// 제품번호 // 수량 // 배송지 // 주문일자// 
-                        
+
                         if (conn.State == ConnectionState.Open) conn.Close();
                         conn.Open();
                         oc.ExecuteNonQuery();
                     }
                     catch (OracleException ex)
                     {
-                       MessageBox.Show(ex.Message);
+                        MessageBox.Show(ex.Message);
                     }
                     Properties.Settings.Default.Orderindex += 1; //발주번호 값증가시키기
                     dataGridView1.Rows[i].DefaultCellStyle.BackColor = Color.Yellow;  //선택된 데이터 노란색으로 보임
@@ -132,7 +132,7 @@ namespace TP
                 }
 
             }
-           
+
         }
 
         private void Order_FormClosed(object sender, FormClosedEventArgs e)
@@ -142,12 +142,12 @@ namespace TP
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
-        {   
+        {
             if (radioButton1.Checked == true)
             {
-                categori = radioButton1.Text;               
+                categori = radioButton1.Text;
                 dataview();
-                
+
             }
             else if (radioButton2.Checked == true)
             {
@@ -156,7 +156,7 @@ namespace TP
             }
             else
             {
-                categori = radioButton3.Text;    
+                categori = radioButton3.Text;
                 dataview();
             }
         }
@@ -170,15 +170,22 @@ namespace TP
             // MessageBox.Show(dt.Columns[3].ToString());       제품명 나옴
             //DataColumn dc = new DataColumn();
 
-
-            DataRow[] dr = dt.Select($"{label} = '{keyword}'"); //제품명에서 비교
-            int i = dt.Rows.IndexOf(dr[0]);     //찾은 배열의 특정컬럼으로뽑기
-
-            foreach (DataRow _dr in dr)
+            try
             {
-                //int test = (int)_dr[0];
-                dataGridView1.Rows[i % 3].DefaultCellStyle.BackColor = Color.Yellow;  //색칠
+                DataRow[] dr = dt.Select($"{label} = '{keyword}'"); //제품명에서 비교
+                int i = dt.Rows.IndexOf(dr[0]);     //찾은 배열의 특정컬럼으로뽑기
+
+                foreach (DataRow _dr in dr)
+                {
+                    //int test = (int)_dr[0];
+                    dataGridView1.Rows[i % 3].DefaultCellStyle.BackColor = Color.Yellow;  //색칠
+                }
             }
+            catch (Exception)
+            {
+                MessageBox.Show("검색 결과가 없습니다.");
+            }
+
         }
     }
 }
