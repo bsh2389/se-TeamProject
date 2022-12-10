@@ -108,6 +108,7 @@ namespace TP
                             Properties.Settings.Default.LoginIDSave = IdPlaceholder;
                             Properties.Settings.Default.Save();
                         }
+                        ll = 0;
                         MessageBox.Show("로그인에 성공했습니다.");
                         this.Close();
                         break;
@@ -115,18 +116,18 @@ namespace TP
                     else
                     {
                         MessageBox.Show("잘못된 비밀번호 입니다.");
+                        ll = 0;
+                        break;
                     }
-                    ll = 0;
                 }
                 else
                 {
-                    ll = 1;
+                    ll = 1;                   
                 }
             }
             if(ll == 1)
             {
-                ll = 0;
-                MessageBox.Show("없는 사용자 입니다.");               
+                MessageBox.Show("없는 사용자 입니다.");
             }
             conn.Close();
         }
