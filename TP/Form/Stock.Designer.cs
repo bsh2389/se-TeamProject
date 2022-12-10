@@ -52,9 +52,10 @@
             this.dataGridView1.Location = new System.Drawing.Point(12, 114);
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 27;
-            this.dataGridView1.Size = new System.Drawing.Size(768, 404);
+            this.dataGridView1.Size = new System.Drawing.Size(768, 418);
             this.dataGridView1.TabIndex = 1;
             // 
             // panel2
@@ -150,7 +151,6 @@
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(126, 20);
             this.comboBox1.TabIndex = 2;
-            this.comboBox1.Text = "제품명";
             // 
             // label3
             // 

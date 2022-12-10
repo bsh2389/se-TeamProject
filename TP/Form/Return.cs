@@ -16,6 +16,8 @@ namespace TP
         public Return()
         {
             InitializeComponent();
+            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList; //콤보 박스 읽기 전용
+            comboBox1.Text = label;
             dataview();
         }
         private void dataview()
