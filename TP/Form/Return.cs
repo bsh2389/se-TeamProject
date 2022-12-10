@@ -12,7 +12,7 @@ namespace TP
         private string DB_Server_Info = "Data Source = localhost;" +
            "User ID = system; Password = 1;";
         private string categori = "음료";
-
+        private string label = "제품명";
         public Return()
         {
             InitializeComponent();
@@ -71,6 +71,8 @@ namespace TP
         private void button2_Click(object sender, EventArgs e)
         {
             //검색부분
+            label = comboBox1.Text;
+            find();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -103,14 +105,7 @@ namespace TP
 
             //save 부분
         }
-
-        private void Order_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            //닫혔을때 save 하는지 물어보는 부분 
-            MessageBox.Show("저장하시겠습니까?"); //예,아니요,취소 부분 되게 
-        }
-
-        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        private void radioButton1_CheckedChanged(object sender, EventArgs e) //카테고리 선택
         {
             if (radioButton1.Checked == true)
             {
@@ -128,6 +123,43 @@ namespace TP
                 categori = radioButton3.Text;
                 dataview();
             }
+        }
+        private void find() //검색 부분
+        {
+            String keyword = textBox1.Text;//Textbox에 입력된 메시지를 keyword 저장
+                                           // 인덱스를 찾을 이름, 검색할 입력값
+
+            DataTable dt = (DataTable)dataGridView1.DataSource;
+            // MessageBox.Show(dt.Columns[3].ToString());       제품명 나옴
+            //DataColumn dc = new DataColumn();
+
+            try
+            {
+                DataRow[] dr = dt.Select($"{label} = '{keyword}'"); //제품명에서 비교
+                int i = dt.Rows.IndexOf(dr[0]);     //찾은 배열의 특정컬럼으로뽑기
+
+                foreach (DataRow _dr in dr)
+                {
+                    //int test = (int)_dr[0];
+                    dataGridView1.Rows[i % 3].DefaultCellStyle.BackColor = Color.Yellow;  //색칠
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("검색 결과가 없습니다.");
+            }
+
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void Form_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            //닫혔을때 save 하는지 물어보는 부분 
+            MessageBox.Show("저장하시겠습니까?"); //예,아니요,취소 부분 되게 
         }
     }
 }

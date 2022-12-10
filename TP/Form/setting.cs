@@ -68,5 +68,10 @@ namespace TP
                 rdr.Close(); // 사용후 닫음
             }
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

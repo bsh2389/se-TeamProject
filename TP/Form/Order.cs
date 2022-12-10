@@ -141,7 +141,7 @@ namespace TP
             MessageBox.Show("저장하시겠습니까?"); //예,아니요,취소 부분 되게 
         }
 
-        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        private void radioButton1_CheckedChanged(object sender, EventArgs e) //카테고리 선택
         {
             if (radioButton1.Checked == true)
             {
@@ -186,6 +186,11 @@ namespace TP
                 MessageBox.Show("검색 결과가 없습니다.");
             }
 
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
