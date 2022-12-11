@@ -13,6 +13,9 @@ namespace TP
            "User ID = system; Password = 1;";
         private string categori = "음료";
         private string label = "제품명";
+        private int index = 1; //datagridview 컬럼 위치가 바뀌어서 추가 제품번호
+        private int pindex = 4;  //datagridview 컬럼 위치가 바뀌어서 추가 발주량
+        private int ss = 0; //저장 성공
         public Return()
         {
             InitializeComponent();
@@ -24,7 +27,7 @@ namespace TP
         {
             try
             {
-                string sqltxt = "select * from 제품";
+                string sqltxt = "select * from 재고";
                 OracleConnection conn = new OracleConnection(DB_Server_Info);
                 conn.Open();
                 OracleDataAdapter adapt = new OracleDataAdapter();
@@ -49,7 +52,7 @@ namespace TP
                 dataGridView1.Columns.Add("비고", "비고");
 
                 //크기 조절부분 
-                dataGridView1.Columns[0].Width = 35;
+                dataGridView1.Columns[0].Width = 40;
 
 
                 //dataGridView1.ReadOnly = true; //전부 읽기 전용           
@@ -60,6 +63,10 @@ namespace TP
                 dataGridView1.Columns[5].ReadOnly = true;
                 dataGridView1.Columns[6].ReadOnly = true;
                 dataGridView1.Columns[7].ReadOnly = true;
+                dataGridView1.Columns[8].ReadOnly = true;
+                dataGridView1.Columns[9].ReadOnly = true;
+                dataGridView1.Columns["발주량"].ReadOnly = false;
+                dataGridView1.Columns["비고"].ReadOnly = false;
 
                 conn.Close();
             }
@@ -85,12 +92,71 @@ namespace TP
                 {
                     try
                     {
-                        string sqltxt = "insert into 주문 + values";
+                        if (Properties.Settings.Default.date != DateTime.Now.ToString("yyyy-MM-dd").ToString())
+                        {
+                            string sqltxt = "DELETE FROM TABLE 반품";
+                            OracleConnection con = new OracleConnection(DB_Server_Info);
+                            con.Open();
+                            OracleCommand cmdc = new OracleCommand(sqltxt, con);
+                        }
+                        string sqlctxt = "select * from 회원";
                         OracleConnection conn = new OracleConnection(DB_Server_Info);
                         conn.Open();
-
+                        OracleCommand cmd = new OracleCommand(sqlctxt, conn);
+                        OracleDataReader reader = cmd.ExecuteReader();
+                        string user_address = "";
+                        while (reader.Read())
+                        {
+                            string db_id = reader["회원아이디"].ToString().Trim();
+                            if (db_id == Properties.Settings.Default.userID.ToString())
+                            {
+                                user_address = reader["편의점주소"].ToString().Trim();
+                                break;
+                            }
+                        }
                         OracleCommand oc = new OracleCommand();
-                        oc.CommandText = sqltxt + "('" + "'" + dataGridView1.Rows[i].Cells[2] + ")"; //발주 번호 //주문고객// 발주제품//수량//배송지 // 주문일자// 
+                        oc.Connection = conn;
+                        oc.CommandText = "MERGE \n into 반품 \n USING dual \n ON (반품제품 = :반품제품) " + "\n WHEN NOT MATCHED THEN \n" +
+                            "insert (반품번호,반품고객,반품제품,반품수량,반품지,반품일자) values(:반품번호, :반품고객, :반품제품,:반품수량,:반품지,:반품일자)"
+                            + "WHEN MATCHED THEN UPDATE SET 반품수량 = :반품수량 ";
+                        oc.BindByName = true;
+                        oc.Parameters.Add(new OracleParameter("반품번호", Properties.Settings.Default.Orderindex.ToString()));
+                        oc.Parameters.Add(new OracleParameter("반품고객", Properties.Settings.Default.userID.ToString()));
+                        oc.Parameters.Add(new OracleParameter("반품제품", dataGridView1.Rows[i].Cells[pindex].Value.ToString()));
+                        oc.Parameters.Add(new OracleParameter("반품수량", Convert.ToInt32(dataGridView1.Rows[i].Cells[index].Value)));
+                        oc.Parameters.Add(new OracleParameter("반품지", user_address));
+                        oc.Parameters.Add(new OracleParameter("반품일자", DateTime.Now.ToString("yyyy-MM-dd").ToString()));
+                        //반품번호 //반품고객// 반품제품 // 반품수량 // 반품지 // 반품일자// 
+                        if (conn.State == ConnectionState.Open) conn.Close();
+                        conn.Open();
+                        oc.ExecuteNonQuery();
+                        OracleCommand occ = new OracleCommand(); //재고 추가 부분
+                        occ.Connection = conn;
+                        if (DateTime.Now.ToString("yyyy-MM-dd").ToString() != Properties.Settings.Default.date)
+                        {
+                            occ.CommandText = "MERGE \n into 재고 \n USING dual \n ON (제품번호 = :제품번호) "  +
+                             "WHEN MATCHED THEN UPDATE SET 재고량 = 재고량 -:재고량 ";
+                        }
+                        else
+                        {
+                            occ.CommandText = "MERGE \n into 재고 \n USING dual \n ON (제품번호 = :제품번호) "  +
+                            "WHEN MATCHED THEN UPDATE SET 재고량 = 재고량 -:재고량";
+                        }
+
+                        occ.BindByName = true;
+                        //occ.Parameters.Add(new OracleParameter("카테고리", dataGridView1.Rows[i].Cells[pindex - 1].Value.ToString()));
+                        occ.Parameters.Add(new OracleParameter("제품번호", dataGridView1.Rows[i].Cells[pindex].Value.ToString()));
+                        //occ.Parameters.Add(new OracleParameter("제조업체", dataGridView1.Rows[i].Cells[pindex + 1].Value.ToString()));
+                        //occ.Parameters.Add(new OracleParameter("제품명", dataGridView1.Rows[i].Cells[pindex + 2].Value.ToString()));
+                        occ.Parameters.Add(new OracleParameter("재고량", Convert.ToInt32(dataGridView1.Rows[i].Cells[index].Value)));
+                        //occ.Parameters.Add(new OracleParameter("단가", dataGridView1.Rows[i].Cells[pindex + 4].Value));
+                        //occ.Parameters.Add(new OracleParameter("규격", dataGridView1.Rows[i].Cells[pindex + 5].Value.ToString()));
+                        //카테고리,제품번호,제조업체,제품명,재고량,단가,규격
+                        Properties.Settings.Default.date = DateTime.Now.ToString("yyyy-MM-dd").ToString();
+                        if (conn.State == ConnectionState.Open) conn.Close();
+                        conn.Open();
+                        occ.ExecuteNonQuery();
+                        ss = 1;
                     }
                     catch (OracleException ex)
                     {
@@ -117,11 +183,15 @@ namespace TP
             }
             else if (radioButton2.Checked == true)
             {
+                pindex = 2;
+                index = 8;
                 categori = radioButton2.Text;
                 dataview();
             }
             else
             {
+                pindex = 2;
+                index = 8;
                 categori = radioButton3.Text;
                 dataview();
             }
@@ -161,7 +231,10 @@ namespace TP
         private void Form_FormClosed(object sender, FormClosedEventArgs e)
         {
             //닫혔을때 save 하는지 물어보는 부분 
-            MessageBox.Show("저장하시겠습니까?"); //예,아니요,취소 부분 되게 
+            if (ss == 0)
+            {
+                MessageBox.Show("저장하시겠습니까?"); //예,아니요,취소 부분 되게 
+            }
         }
     }
 }

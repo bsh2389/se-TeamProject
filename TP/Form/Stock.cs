@@ -32,7 +32,7 @@ namespace TP
 
             try
             {
-                string sqltxt = "select * from 제품";
+                string sqltxt = "select * from 재고";
                 OracleConnection conn = new OracleConnection(DB_Server_Info);
                 conn.Open();
                 OracleDataAdapter adapt = new OracleDataAdapter();

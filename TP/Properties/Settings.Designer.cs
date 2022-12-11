@@ -58,5 +58,17 @@ namespace TP.Properties {
                 this["Orderindex"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string date {
+            get {
+                return ((string)(this["date"]));
+            }
+            set {
+                this["date"] = value;
+            }
+        }
     }
 }
