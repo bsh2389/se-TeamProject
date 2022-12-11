@@ -70,5 +70,17 @@ namespace TP.Properties {
                 this["date"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int Returnindex {
+            get {
+                return ((int)(this["Returnindex"]));
+            }
+            set {
+                this["Returnindex"] = value;
+            }
+        }
     }
 }

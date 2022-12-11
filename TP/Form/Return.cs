@@ -120,7 +120,7 @@ namespace TP
                             "insert (반품번호,반품고객,반품제품,반품수량,반품지,반품일자) values(:반품번호, :반품고객, :반품제품,:반품수량,:반품지,:반품일자)"
                             + "WHEN MATCHED THEN UPDATE SET 반품수량 = :반품수량 ";
                         oc.BindByName = true;
-                        oc.Parameters.Add(new OracleParameter("반품번호", Properties.Settings.Default.Orderindex.ToString()));
+                        oc.Parameters.Add(new OracleParameter("반품번호", Properties.Settings.Default.Returnindex.ToString()));
                         oc.Parameters.Add(new OracleParameter("반품고객", Properties.Settings.Default.userID.ToString()));
                         oc.Parameters.Add(new OracleParameter("반품제품", dataGridView1.Rows[i].Cells[pindex].Value.ToString()));
                         oc.Parameters.Add(new OracleParameter("반품수량", Convert.ToInt32(dataGridView1.Rows[i].Cells[index].Value)));
@@ -162,6 +162,7 @@ namespace TP
                     {
                         MessageBox.Show(ex.Message);
                     }
+                    Properties.Settings.Default.Returnindex += 1; //반품번호 값증가시키기
                     dataGridView1.Rows[i].DefaultCellStyle.BackColor = Color.Yellow;
                 }
                 else
@@ -204,16 +205,20 @@ namespace TP
             DataTable dt = (DataTable)dataGridView1.DataSource;
             // MessageBox.Show(dt.Columns[3].ToString());       제품명 나옴
             //DataColumn dc = new DataColumn();
+            for (int i = 0; i < dataGridView1.Rows.Count; i++)
+            {
+                dataGridView1.Rows[i].DefaultCellStyle.BackColor = Color.White;
+            }
 
             try
             {
                 DataRow[] dr = dt.Select($"{label} = '{keyword}'"); //제품명에서 비교
-                int i = dt.Rows.IndexOf(dr[0]);     //찾은 배열의 특정컬럼으로뽑기
-
-                foreach (DataRow _dr in dr)
+                                                                    //int i = dt.Rows.IndexOf(dr[0]);     //찾은 배열의 특정컬럼으로뽑기
+                                                                    //dr.Length
+                for (int i = 0; i < dr.Length; i++)
                 {
-                    //int test = (int)_dr[0];
-                    dataGridView1.Rows[i % 3].DefaultCellStyle.BackColor = Color.Yellow;  //색칠
+                    int indexRow = dt.Rows.IndexOf(dr[i]);
+                    dataGridView1.Rows[indexRow % 3].DefaultCellStyle.BackColor = Color.Yellow;  //색칠
                 }
             }
             catch (Exception)

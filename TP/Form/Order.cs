@@ -104,7 +104,7 @@ namespace TP
             //~추가
             List<OrderList> list = new List<OrderList>();
             OrderList olist = new OrderList();
-            FileStream fs = File.Create("create.csv");
+            FileStream fs = new FileStream("oredrlist.csv", FileMode.Append);
             StreamWriter sw = new StreamWriter(fs);
             //~추가
             for (int i = 0; i < dataGridView1.Rows.Count; i++)
@@ -267,17 +267,21 @@ namespace TP
             DataTable dt = (DataTable)dataGridView1.DataSource;
             // MessageBox.Show(dt.Columns[3].ToString());       제품명 나옴
             //DataColumn dc = new DataColumn();
+            for (int i = 0; i < dataGridView1.Rows.Count; i++)
+            {
+                dataGridView1.Rows[i].DefaultCellStyle.BackColor = Color.White;
+            }
 
             try
             {
                 DataRow[] dr = dt.Select($"{label} = '{keyword}'"); //제품명에서 비교
-                int i = dt.Rows.IndexOf(dr[0]);     //찾은 배열의 특정컬럼으로뽑기
-
-                foreach (DataRow _dr in dr)
+                //int i = dt.Rows.IndexOf(dr[0]);     //찾은 배열의 특정컬럼으로뽑기
+                                                    //dr.Length
+                for (int i = 0; i < dr.Length; i++)
                 {
-                    //int test = (int)_dr[0];
-                    dataGridView1.Rows[i % 3].DefaultCellStyle.BackColor = Color.Yellow;  //색칠
-                }
+                    int indexRow = dt.Rows.IndexOf(dr[i]);
+                    dataGridView1.Rows[indexRow % 3].DefaultCellStyle.BackColor = Color.Yellow;  //색칠
+                }           
             }
             catch (Exception)
             {
