@@ -67,7 +67,7 @@ namespace TP
                 dataGridView1.Columns[9].ReadOnly = true;
                 dataGridView1.Columns["반품량"].ReadOnly = false;
                 dataGridView1.Columns["비고"].ReadOnly = false;
-
+                
                 conn.Close();
             }
             catch (OracleException ex)
@@ -92,13 +92,15 @@ namespace TP
                 {
                     try
                     {
-                        if (Properties.Settings.Default.date != DateTime.Now.ToString("yyyy-MM-dd").ToString())
+                        if (Properties.Settings.Default.Returnindex == 0)
                         {
-                            string sqltxt = "DELETE FROM TABLE 반품";
+                            string sqltxt = "DELETE 반품";
                             OracleConnection con = new OracleConnection(DB_Server_Info);
                             con.Open();
                             OracleCommand cmdc = new OracleCommand(sqltxt, con);
+                            cmdc.ExecuteNonQuery();
                         }
+
                         string sqlctxt = "select * from 회원";
                         OracleConnection conn = new OracleConnection(DB_Server_Info);
                         conn.Open();
@@ -163,18 +165,20 @@ namespace TP
                     {
                         ss=0;
                         MessageBox.Show(ex.Message);
-                    }               
+                    }
+                    pindex = 2;
+                    index = 8;
+                    dataview();
                     dataGridView1.Rows[i].DefaultCellStyle.BackColor = Color.Yellow;
                 }
                 else
                 {
-                    ss = 0;
                     dataGridView1.Rows[i].DefaultCellStyle.BackColor = Color.White;
                 }
 
             }
             if (ss == 1)
-            {
+            {               
                 MessageBox.Show("저장되었습니다.");
             }
             //save 부분

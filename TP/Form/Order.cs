@@ -30,8 +30,8 @@ namespace TP
            "User ID = system; Password = 1;";
         private string categori = "음료";
         private string label = "제품명";
-        private int index = 1; //datagridview 컬럼 위치가 바뀌어서 추가 제품번호
-        private int pindex = 4;  //datagridview 컬럼 위치가 바뀌어서 추가 발주량
+        private int index = 1; //datagridview 컬럼 위치가 바뀌어서 추가 , 제품번호
+        private int pindex = 4;  //datagridview 컬럼 위치가 바뀌어서 추가 , 발주량
         private int ss = 1; //저장 성공
         public Order()
         {
@@ -100,7 +100,6 @@ namespace TP
 
         private void button1_Click(object sender, EventArgs e) //save 부분
         {
-
             //~추가
             List<OrderList> list = new List<OrderList>();
             OrderList olist = new OrderList();
@@ -113,12 +112,13 @@ namespace TP
                 {
                     try
                     {
-                        if(Properties.Settings.Default.date != DateTime.Now.ToString("yyyy-MM-dd").ToString())
+                        if (Properties.Settings.Default.Orderindex == 0)
                         {
-                            string sqltxt = "DELETE FROM TABLE 주문";
+                            string sqltxt = "DELETE 주문";
                             OracleConnection con = new OracleConnection(DB_Server_Info);
                             con.Open();
                             OracleCommand cmdc = new OracleCommand(sqltxt, con);
+                            cmdc.ExecuteNonQuery();
                         }
                         string sqlctxt = "select * from 회원";
                         OracleConnection conn = new OracleConnection(DB_Server_Info);
@@ -178,7 +178,7 @@ namespace TP
                         {
                             occ.CommandText = "MERGE \n into 재고 \n USING dual \n ON (제품명 = :제품명) " + "\n WHEN NOT MATCHED THEN \n" +
                             "insert (카테고리,제품번호,제조업체,제품명,재고량,단가,규격) values(:카테고리,:제품번호,:제조업체,:제품명,:재고량,:단가,:규격)"
-                            + "WHEN MATCHED THEN UPDATE SET 재고량 = :재고량 ";
+                            + "WHEN MATCHED THEN \n UPDATE \n SET 재고량 = :재고량 ";
                         }
 
                         occ.BindByName = true;
@@ -194,7 +194,7 @@ namespace TP
                         if (conn.State == ConnectionState.Open) conn.Close();
                         conn.Open();
                         occ.ExecuteNonQuery();
-                        Properties.Settings.Default.Orderindex += 1; //발주번호 값증가시키기
+                       
                         ss = 1;
                     }
                     catch (OracleException ex)
@@ -202,6 +202,7 @@ namespace TP
                         ss = 0;
                         MessageBox.Show(ex.Message);
                     }
+                    Properties.Settings.Default.Orderindex += 1; //발주번호 값증가시키기
                     dataGridView1.Rows[i].DefaultCellStyle.BackColor = Color.Yellow;  //선택된 데이터 노란색으로 보임
                 }
                 else
