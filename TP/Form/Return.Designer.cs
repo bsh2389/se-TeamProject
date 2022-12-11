@@ -221,7 +221,7 @@
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Return";
             this.Text = "Return";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form_FormClosed);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Return_FormClosing);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);

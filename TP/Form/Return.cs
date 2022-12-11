@@ -15,7 +15,7 @@ namespace TP
         private string label = "제품명";
         private int index = 1; //datagridview 컬럼 위치가 바뀌어서 추가 제품번호
         private int pindex = 4;  //datagridview 컬럼 위치가 바뀌어서 추가 발주량
-        private int ss = 0; //저장 성공
+        private int ss = 1; //저장 성공
         public Return()
         {
             InitializeComponent();
@@ -48,7 +48,7 @@ namespace TP
                 };
                 dataGridView1.Columns.Add(chkCol);
                 dataGridView1.DataSource = dt;   //데이터 추가 부분
-                dataGridView1.Columns.Add("발주량", "발주량");
+                dataGridView1.Columns.Add("반품량", "반품량");
                 dataGridView1.Columns.Add("비고", "비고");
 
                 //크기 조절부분 
@@ -65,7 +65,7 @@ namespace TP
                 dataGridView1.Columns[7].ReadOnly = true;
                 dataGridView1.Columns[8].ReadOnly = true;
                 dataGridView1.Columns[9].ReadOnly = true;
-                dataGridView1.Columns["발주량"].ReadOnly = false;
+                dataGridView1.Columns["반품량"].ReadOnly = false;
                 dataGridView1.Columns["비고"].ReadOnly = false;
 
                 conn.Close();
@@ -156,22 +156,27 @@ namespace TP
                         if (conn.State == ConnectionState.Open) conn.Close();
                         conn.Open();
                         occ.ExecuteNonQuery();
+                        Properties.Settings.Default.Returnindex += 1; //반품번호 값증가시키기
                         ss = 1;
                     }
                     catch (OracleException ex)
                     {
+                        ss=0;
                         MessageBox.Show(ex.Message);
-                    }
-                    Properties.Settings.Default.Returnindex += 1; //반품번호 값증가시키기
+                    }               
                     dataGridView1.Rows[i].DefaultCellStyle.BackColor = Color.Yellow;
                 }
                 else
                 {
+                    ss = 0;
                     dataGridView1.Rows[i].DefaultCellStyle.BackColor = Color.White;
                 }
 
             }
-
+            if (ss == 1)
+            {
+                MessageBox.Show("저장되었습니다.");
+            }
             //save 부분
         }
         private void radioButton1_CheckedChanged(object sender, EventArgs e) //카테고리 선택
@@ -235,10 +240,28 @@ namespace TP
 
         private void Form_FormClosed(object sender, FormClosedEventArgs e)
         {
+           
+        }
+
+        private void Return_FormClosing(object sender, FormClosingEventArgs e)
+        {
             //닫혔을때 save 하는지 물어보는 부분 
             if (ss == 0)
             {
-                MessageBox.Show("저장하시겠습니까?"); //예,아니요,취소 부분 되게 
+                DialogResult dialog = MessageBox.Show("저장하시겠습니까?", "경고", MessageBoxButtons.YesNoCancel);
+                if (dialog == DialogResult.Yes)
+                {
+                    button1.PerformClick();
+                }
+                else if (dialog == DialogResult.Cancel)
+                {
+                    e.Cancel = true;
+                }
+                else if (dialog == DialogResult.No)
+                {
+                    e.Cancel = false;
+                }
+                //MessageBox.Show("저장하시겠습니까?"); //예,아니요,취소 부분 되게 
             }
         }
     }

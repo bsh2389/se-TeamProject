@@ -195,6 +195,7 @@
             this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
             this.dataGridView1.Size = new System.Drawing.Size(768, 447);
             this.dataGridView1.TabIndex = 11;
+            this.dataGridView1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellValueChanged);
             // 
             // button3
             // 
@@ -221,7 +222,7 @@
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Order";
             this.Text = "Order";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Order_FormClosed);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Order_FormClosing);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);

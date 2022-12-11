@@ -32,7 +32,7 @@ namespace TP
         private string label = "제품명";
         private int index = 1; //datagridview 컬럼 위치가 바뀌어서 추가 제품번호
         private int pindex = 4;  //datagridview 컬럼 위치가 바뀌어서 추가 발주량
-        private int ss = 0; //저장 성공
+        private int ss = 1; //저장 성공
         public Order()
         {
             InitializeComponent();
@@ -105,7 +105,7 @@ namespace TP
             List<OrderList> list = new List<OrderList>();
             OrderList olist = new OrderList();
             FileStream fs = new FileStream("oredrlist.csv", FileMode.Append);
-            StreamWriter sw = new StreamWriter(fs);
+            StreamWriter sw = new StreamWriter(fs, System.Text.Encoding.Default);
             //~추가
             for (int i = 0; i < dataGridView1.Rows.Count; i++)
             {
@@ -140,7 +140,7 @@ namespace TP
                         olist.Orderindex = Properties.Settings.Default.Orderindex.ToString();
                         olist.userID = Properties.Settings.Default.userID.ToString();
                         olist.product = dataGridView1.Rows[i].Cells[4].Value.ToString();
-                        olist.quantity = Convert.ToInt32(dataGridView1.Rows[i].Cells[1].Value);
+                        olist.quantity = Convert.ToInt32(dataGridView1.Rows[i].Cells[index].Value);
                         olist.user_address = user_address;
                         olist.date = DateTime.Now.ToString("yyyy-MM-dd").ToString();
                         //sw.WriteLine($"{olist.Orderindex},{olist.userID},{olist.product},{olist.quantity},{olist.user_address},{olist.date}\r\n");
@@ -194,7 +194,7 @@ namespace TP
                         if (conn.State == ConnectionState.Open) conn.Close();
                         conn.Open();
                         occ.ExecuteNonQuery();
-
+                        Properties.Settings.Default.Orderindex += 1; //발주번호 값증가시키기
                         ss = 1;
                     }
                     catch (OracleException ex)
@@ -202,8 +202,6 @@ namespace TP
                         ss = 0;
                         MessageBox.Show(ex.Message);
                     }
-
-                    Properties.Settings.Default.Orderindex += 1; //발주번호 값증가시키기
                     dataGridView1.Rows[i].DefaultCellStyle.BackColor = Color.Yellow;  //선택된 데이터 노란색으로 보임
                 }
                 else
@@ -224,16 +222,28 @@ namespace TP
             sw.Close();
             fs.Close();
         }
-
-        private void Order_FormClosed(object sender, FormClosedEventArgs e)
+        private void Order_FormClosing(object sender, FormClosingEventArgs e)
         {
             //닫혔을때 save 하는지 물어보는 부분 
             if (ss == 0)
             {
-                MessageBox.Show("저장하시겠습니까?"); //예,아니요,취소 부분 되게 
+                DialogResult dialog = MessageBox.Show("저장하시겠습니까?", "경고", MessageBoxButtons.YesNoCancel);
+                if (dialog == DialogResult.Yes)
+                {
+                    button1.PerformClick();
+                }
+                else if (dialog == DialogResult.Cancel)
+                {
+                    e.Cancel = true;
+                }
+                else if(dialog == DialogResult.No)
+                {
+                    e.Cancel = false;
+                }
+                //MessageBox.Show("저장하시겠습니까?"); //예,아니요,취소 부분 되게 
             }
-            
         }
+
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e) //카테고리 선택
         {
@@ -294,5 +304,12 @@ namespace TP
         {
             this.Close();
         }
+
+        private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            ss = 0;
+        }
+
+       
     }
 }
