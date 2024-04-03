@@ -16,7 +16,7 @@ namespace TP
     {
         Main main;
         private string DB_Server_Info = "Data Source = localhost;" +
-           "User ID = system; Password = 1;";
+           "User ID = system; Password = 1234;";
 
 
         public bool test = false;

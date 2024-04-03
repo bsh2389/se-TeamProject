@@ -32,7 +32,7 @@ namespace TP
         {
             //회원정보 버튼
 
-            string _strConn = "Data Source=localhost;User Id=system;Password=1;"; // 데이터 읽기
+            string _strConn = "Data Source=localhost;User Id=system;Password=1234;"; // 데이터 읽기
 
             using (OracleConnection conn = new OracleConnection(_strConn))
             {         // 연결

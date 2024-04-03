@@ -46,5 +46,17 @@ namespace TP
             Form form = new setting(this);
             form.ShowDialog();
         }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            Form form = new sale();
+            form.ShowDialog();
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            Form form = new receipt();
+            form.ShowDialog();
+        }
     }
 }

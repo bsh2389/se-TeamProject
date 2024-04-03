@@ -27,12 +27,13 @@ namespace TP
 
         }
         private string DB_Server_Info = "Data Source = localhost;" +
-           "User ID = system; Password = 1;";
+           "User ID = system; Password = 1234;";
         private string categori = "음료";
         private string label = "제품명";
-        private int index = 1; //datagridview 컬럼 위치가 바뀌어서 추가 , 제품번호
-        private int pindex = 4;  //datagridview 컬럼 위치가 바뀌어서 추가 , 발주량
-        private int ss = 1; //저장 성공
+        private int index = 1; //datagridview 컬럼 위치가 바뀌어서 추가 , 발주량
+        private int pindex = 4;  //datagridview 컬럼 위치가 바뀌어서 추가 , 제품번호
+        private int ss = 0; //저장 성공
+        private int selectsusses = 0; //검색 성공 
         public Order()
         {
             InitializeComponent();
@@ -94,6 +95,7 @@ namespace TP
 
         private void button2_Click(object sender, EventArgs e) //검색 부분
         {
+            selectsusses = 0;
             label = comboBox1.Text;
             find();
         }
@@ -139,7 +141,7 @@ namespace TP
                         //추가~
                         olist.Orderindex = Properties.Settings.Default.Orderindex.ToString();
                         olist.userID = Properties.Settings.Default.userID.ToString();
-                        olist.product = dataGridView1.Rows[i].Cells[4].Value.ToString();
+                        olist.product = dataGridView1.Rows[i].Cells[pindex].Value.ToString();
                         olist.quantity = Convert.ToInt32(dataGridView1.Rows[i].Cells[index].Value);
                         olist.user_address = user_address;
                         olist.date = DateTime.Now.ToString("yyyy-MM-dd").ToString();
@@ -170,13 +172,13 @@ namespace TP
                         occ.Connection = conn;
                         if (DateTime.Now.ToString("yyyy-MM-dd").ToString()!= Properties.Settings.Default.date)
                         {
-                            occ.CommandText = "MERGE \n into 재고 \n USING dual \n ON (제품명 = :제품명) " + "\n WHEN NOT MATCHED THEN \n" +
+                            occ.CommandText = "MERGE \n into 재고 \n USING dual \n ON (제품번호 = :제품번호) " + "\n WHEN NOT MATCHED THEN \n" +
                             "insert (카테고리,제품번호,제조업체,제품명,재고량,단가,규격) values(:카테고리,:제품번호,:제조업체,:제품명,:재고량,:단가,:규격)"
                             + "WHEN MATCHED THEN UPDATE SET 재고량 = 재고량 + :재고량 ";
                         }
                         else
                         {
-                            occ.CommandText = "MERGE \n into 재고 \n USING dual \n ON (제품명 = :제품명) " + "\n WHEN NOT MATCHED THEN \n" +
+                            occ.CommandText = "MERGE \n into 재고 \n USING dual \n ON (제품번호 = :제품번호) " + "\n WHEN NOT MATCHED THEN \n" +
                             "insert (카테고리,제품번호,제조업체,제품명,재고량,단가,규격) values(:카테고리,:제품번호,:제조업체,:제품명,:재고량,:단가,:규격)"
                             + "WHEN MATCHED THEN \n UPDATE \n SET 재고량 = :재고량 ";
                         }
@@ -272,33 +274,36 @@ namespace TP
 
         private void find() //검색 부분
         {
-            String keyword = textBox1.Text;//Textbox에 입력된 메시지를 keyword 저장
+            string keyword = textBox1.Text;//Textbox에 입력된 메시지를 keyword 저장
                                            // 인덱스를 찾을 이름, 검색할 입력값
 
-            DataTable dt = (DataTable)dataGridView1.DataSource;
-            // MessageBox.Show(dt.Columns[3].ToString());       제품명 나옴
-            //DataColumn dc = new DataColumn();
             for (int i = 0; i < dataGridView1.Rows.Count; i++)
             {
-                dataGridView1.Rows[i].DefaultCellStyle.BackColor = Color.White;
-            }
-
-            try
-            {
-                DataRow[] dr = dt.Select($"{label} = '{keyword}'"); //제품명에서 비교
-                //int i = dt.Rows.IndexOf(dr[0]);     //찾은 배열의 특정컬럼으로뽑기
-                                                    //dr.Length
-                for (int i = 0; i < dr.Length; i++)
+               
+                if (dataGridView1.Rows[i].Cells[$"{label}"].Value.ToString().Trim() == keyword.Trim())
                 {
-                    int indexRow = dt.Rows.IndexOf(dr[i]);
-                    dataGridView1.Rows[indexRow % 3].DefaultCellStyle.BackColor = Color.Yellow;  //색칠
-                }           
+                    dataGridView1.Rows[i].DefaultCellStyle.BackColor = Color.Yellow;  //색칠
+                    selectsusses = 1;
+                }
+                else
+                {
+                    dataGridView1.Rows[i].DefaultCellStyle.BackColor = Color.White;
+                }
             }
-            catch (Exception)
+            if(selectsusses == 0)
             {
                 MessageBox.Show("검색 결과가 없습니다.");
             }
-
+           
+                
+            
+        }
+        private void textBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                button2.PerformClick();
+            }
         }
 
         private void button3_Click(object sender, EventArgs e)
