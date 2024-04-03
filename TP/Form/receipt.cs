@@ -18,7 +18,7 @@ namespace TP
     {
         public receipt()
         {
-            
+            InitializeComponent();
         }
 
     }
