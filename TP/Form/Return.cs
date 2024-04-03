@@ -11,7 +11,7 @@ namespace TP
     {
         private string DB_Server_Info = "Data Source = localhost;" +
            "User ID = system; Password = 1234;";
-        private string categori = "음료";
+        private string categori = null;
         private string label = "제품명";
         private int index = 1; //datagridview 컬럼 위치가 바뀌어서 추가 발주량
         private int pindex = 4;  //datagridview 컬럼 위치가 바뀌어서 추가 제품번호
@@ -39,8 +39,11 @@ namespace TP
                 dt.Reset();
                 dt = ds.Tables[0];
                 dataGridView1.Columns.Clear();
-
-                dt.DefaultView.RowFilter = $"카테고리 ='{categori}'";
+                if (!string.IsNullOrEmpty(categori)) // Check if categori is not empty or null
+                {
+                    dt.DefaultView.RowFilter = $"카테고리 ='{categori}'";
+                }
+                //dt.DefaultView.RowFilter = $"카테고리 ='{categori}'";
                 dataGridView1.AllowUserToAddRows = false; //빈레코드 표시x
                 var chkCol = new DataGridViewCheckBoxColumn
                 {
@@ -188,8 +191,18 @@ namespace TP
         }
         private void radioButton1_CheckedChanged(object sender, EventArgs e) //카테고리 선택
         {
+            if (radioButton4.Checked == true)
+            {
+                pindex = 2;
+                index = 8;
+                categori = null;
+                dataview();
+
+            }
             if (radioButton1.Checked == true)
             {
+                pindex = 2;
+                index = 8;
                 categori = radioButton1.Text;
                 dataview();
 
@@ -201,7 +214,7 @@ namespace TP
                 categori = radioButton2.Text;
                 dataview();
             }
-            else
+            else if (radioButton3.Checked == true)
             {
                 pindex = 2;
                 index = 8;

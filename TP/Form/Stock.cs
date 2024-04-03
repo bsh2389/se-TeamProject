@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -16,7 +17,7 @@ namespace TP
     public partial class Stock : Form
     {
         string DB_Server_Info = "Data Source = localhost; User ID = system; Password = 1234;";
-        private string categori = "음료";
+        private string categori = null;
         private string label = "제품명";
         private int selectsusses = 0; //검색 성공 
         public Stock()
@@ -43,7 +44,11 @@ namespace TP
                 adapt.Fill(ds);
                 dt.Reset();
                 dt = ds.Tables[0];
-                dt.DefaultView.RowFilter = $"카테고리 ='{categori}'";
+                if (!string.IsNullOrEmpty(categori)) // Check if categori is not empty or null
+                {
+                    dt.DefaultView.RowFilter = $"카테고리 ='{categori}'";
+                }
+                //dt.DefaultView.RowFilter = $"카테고리 ='{categori}'";
                 dataGridView1.AllowUserToAddRows = false; //빈레코드 표시x
 
                 dataGridView1.DataSource = dt;
@@ -57,6 +62,12 @@ namespace TP
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e) //카테고리 선택
         {
+            if (radioButton4.Checked == true)
+            {
+                categori = null;
+                dataview();
+
+            }
             if (radioButton1.Checked == true)
             {
                 categori = radioButton1.Text;
@@ -68,7 +79,7 @@ namespace TP
                 categori = radioButton2.Text;
                 dataview();
             }
-            else
+            else if (radioButton3.Checked == true)
             {
                 categori = radioButton3.Text;
                 dataview();

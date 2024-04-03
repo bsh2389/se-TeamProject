@@ -23,39 +23,62 @@ namespace TP
             form.ShowDialog();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Order_Click(object sender, EventArgs e)
         {
             Form form = new Order();
             form.ShowDialog();
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void Return_Click(object sender, EventArgs e)
         {
             Form form = new Return();
             form.ShowDialog();
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void Stock_Click(object sender, EventArgs e)
         {
             Form form = new Stock();
             form.ShowDialog();
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void setting_Click(object sender, EventArgs e)
         {
             Form form = new setting(this);
             form.ShowDialog();
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        private void sale_Click(object sender, EventArgs e)
         {
             Form form = new sale();
             form.ShowDialog();
         }
 
-        private void button6_Click(object sender, EventArgs e)
+        private void receipt_Click(object sender, EventArgs e)
         {
             Form form = new receipt();
+            form.ShowDialog();
+        }
+
+        private void productinformation_Click(object sender, EventArgs e)
+        {
+            Form form = new productinformation();
+            form.ShowDialog();
+        }
+
+        private void salesfigures_Click(object sender, EventArgs e)
+        {
+            Form form = new salesfigures();
+            form.ShowDialog(); 
+        }
+
+        private void finish_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void rateofreturn_Click(object sender, EventArgs e)
+        {
+            Form form = new rateofreturn();
             form.ShowDialog();
         }
     }

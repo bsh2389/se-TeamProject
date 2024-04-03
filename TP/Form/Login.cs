@@ -112,13 +112,13 @@ namespace TP
                             Properties.Settings.Default.Save();
                         }
                         ll = 0;
-                        MessageBox.Show("로그인에 성공했습니다.");
+                        MessageBox.Show("로그인에 성공했습니다.","로그인 성공");
                         this.Close();
                         break;
                     }
                     else
                     {
-                        MessageBox.Show("잘못된 비밀번호 입니다.");
+                        MessageBox.Show("잘못된 비밀번호 입니다.", "로그인 실패");
                         ll = 0;
                         break;
                     }
