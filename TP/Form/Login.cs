@@ -33,7 +33,7 @@ namespace TP
                 txt.GotFocus += RemovePlaceholder;
                 txt.LostFocus += SetPlaceholder;
             }
-            loginController = new LoginController(this);
+            loginController = new LoginController();
         }
 
 
@@ -70,6 +70,8 @@ namespace TP
             string id = textBox1.Text;
             string pw = textBox2.Text;
             loginController.checkUser(id, pw);
+            if (loginController.IsLoginSuccess())
+                this.Close();
         }
 
         private void Login_FormClosing(object sender, FormClosingEventArgs e)
@@ -86,11 +88,6 @@ namespace TP
                 textBox1.Text = Properties.Settings.Default.LoginIDSave;
                 textBox1.ForeColor = Color.Black;
             }
-
-        }
-        public void CloseForm()
-        {
-            this.Close();
         }
     }
 }

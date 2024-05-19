@@ -7,17 +7,10 @@ namespace TP
 {
     public class LoginController
     {
-        private Login login;
-
-        public LoginController(Login login)
-        {
-            this.login = login;
-        }
-
         private string DB_Server_Info = "Data Source = localhost;" +
            "User ID = system; Password = 1234;";
-        private int ls = 0; //로그인 성공 여부 
-        private int ll = 0; //사용자 없는지 유무
+        private Boolean loginsucces = false; //로그인 성공 여부 
+        private Boolean noneUser = false; //사용자 없는지 유무
 
         public void checkUser(string id, string pw)
         {
@@ -36,7 +29,7 @@ namespace TP
 
                 if (id == "아이디" || pw == "비밀번호")
                 {
-                    ll = 0;
+                    noneUser = false;
                     MessageBox.Show("ID 또는 Password를입력하세요.");
                     break;
                 }
@@ -46,25 +39,24 @@ namespace TP
                     {
                         Properties.Settings.Default.userID = id; //나중에 db상 주소지 찾을때 사용
                         Properties.Settings.Default.Save();
-                        ls = 1;
-                        ll = 0;
-                        MessageBox.Show("로그인에 성공했습니다.", "로그인 성공");
-                        login.CloseForm();
+                        loginsucces = true;
+                        noneUser = false;
+                        MessageBox.Show("로그인에 성공했습니다.", "로그인 성공");                      
                         break;
                     }
                     else
                     {
                         MessageBox.Show("잘못된 비밀번호 입니다.", "로그인 실패");
-                        ll = 0;
+                        noneUser = false;
                         break;
                     }
                 }
                 else
                 {
-                    ll = 1;
+                    noneUser = true;
                 }
             }
-            if (ll == 1)
+            if (noneUser)
             {
                 MessageBox.Show("없는 사용자 입니다.");
             }
@@ -73,7 +65,7 @@ namespace TP
 
         public bool IsLoginSuccess()
         {
-            return ls == 1;
+            return loginsucces;
         }
     }
 }
