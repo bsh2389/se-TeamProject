@@ -16,48 +16,29 @@ namespace TP
 {
     public partial class Stock : Form
     {
-        string DB_Server_Info = "Data Source = localhost; User ID = system; Password = 1234;";
         private string categori = null;
         private string label = "제품명";
         private int selectsusses = 0; //검색 성공 
+        private StockController stockController;
+
         public Stock()
         {
             InitializeComponent();
             comboBox1.DropDownStyle = ComboBoxStyle.DropDownList; //콤보 박스 읽기 전용
             comboBox1.Text = label;
+            stockController = new StockController();
             dataview();
         }
 
         private void dataview()
         {
-            
-
-            try
+            DataTable dt = stockController.GetStocks();
+            if (!string.IsNullOrEmpty(categori)) // Check if categori is not empty or null
             {
-                string sqltxt = "select * from 재고";
-                OracleConnection conn = new OracleConnection(DB_Server_Info);
-                conn.Open();
-                OracleDataAdapter adapt = new OracleDataAdapter();
-                adapt.SelectCommand = new OracleCommand(sqltxt, conn);
-                DataSet ds = new DataSet();
-                DataTable dt = new DataTable();
-                adapt.Fill(ds);
-                dt.Reset();
-                dt = ds.Tables[0];
-                if (!string.IsNullOrEmpty(categori)) // Check if categori is not empty or null
-                {
-                    dt.DefaultView.RowFilter = $"카테고리 ='{categori}'";
-                }
-                //dt.DefaultView.RowFilter = $"카테고리 ='{categori}'";
-                dataGridView1.AllowUserToAddRows = false; //빈레코드 표시x
-
-                dataGridView1.DataSource = dt;
-                conn.Close();
+                dt.DefaultView.RowFilter = $"카테고리 ='{categori}'";
             }
-            catch (OracleException ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            dataGridView1.AllowUserToAddRows = false; //빈레코드 표시x
+            dataGridView1.DataSource = dt;
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e) //카테고리 선택

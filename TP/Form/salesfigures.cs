@@ -33,7 +33,7 @@ namespace TP
 
 
         }
-
+        private void setDate() { }
         private void button1_Click(object sender, EventArgs e)
         {
             //일일 판매실적, 월별 판매실적, 대분류별 판매실적
