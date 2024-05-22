@@ -150,6 +150,7 @@
     <Compile Include="Form\salesfigures.Designer.cs">
       <DependentUpon>salesfigures.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserEntity.cs" />
     <EmbeddedResource Include="Form\Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>

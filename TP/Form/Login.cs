@@ -14,9 +14,11 @@ namespace TP
     {
         Main main;
         TextBox[] txtList;
-        const string IdPlaceholder = "아이디";
-        const string PwPlaceholder = "비밀번호";
-        LoginController loginController;
+        private const string IdPlaceholder = "아이디";
+        private const string PwPlaceholder = "비밀번호";
+        private string id;
+        private string pw;
+        readonly LoginController loginController;
 
         public Login(Main main)
         {
@@ -67,16 +69,32 @@ namespace TP
 
         private void Login_Click(object sender, EventArgs e)
         {
-            string id = textBox1.Text;
-            string pw = textBox2.Text;
-            loginController.checkUser(id, pw);
-            if (loginController.IsLoginSuccess())
-                this.Close();
+            id = textBox1.Text;
+            pw = textBox2.Text;
+
+            if (id == IdPlaceholder || pw == PwPlaceholder)
+            {
+                MessageBox.Show("ID 또는 Password를 입력하세요.");
+            }
+            else
+            {
+                if (loginController.checkUser(id, pw))
+                {
+                    MessageBox.Show("로그인에 성공했습니다.", "로그인 성공");
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("잘못된 아이디 또는 비밀번호 입니다.", "로그인 실패");
+                }      
+            }
         }
 
         private void Login_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (!loginController.IsLoginSuccess()) //로그인 성공하면 그냥 메인문도 닫히기 때문에 로그인 성공하지 못한상태에서 닫을시 메인문도 닫힘
+            id = textBox1.Text;
+            pw = textBox2.Text;
+            if (!loginController.checkUser(id, pw)) //로그인 성공하면 그냥 메인문도 닫히기 때문에 로그인 성공하지 못한상태에서 닫을시 메인문도 닫힘
                 main.Close();
         }
 
