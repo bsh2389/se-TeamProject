@@ -11,9 +11,7 @@ namespace TP
         {
             UserEntity userEntity = new UserEntity();
             if (userEntity.IsUserExists(id, pw))
-            {
-                Properties.Settings.Default.userID = id; //나중에 db상 주소지 찾을때 사용
-                Properties.Settings.Default.Save();
+            {               
                 loginsucces = true;      
             }
             else
