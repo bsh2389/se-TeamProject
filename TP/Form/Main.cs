@@ -25,130 +25,50 @@ namespace TP
 
         private void Order_Click(object sender, EventArgs e)
         {
-            // 메인 폼을 숨깁니다.
-            this.Hide();
-
-            // 판매 폼을 생성하고 표시합니다
-            using (Form form = new Order())
-            {
-                // ShowDialog()를 사용해 판매 폼을 모달로 표시합니다.
-                form.ShowDialog();
-
-                // 판매 폼이 닫히면 메인 폼을 다시 표시합니다.
-                this.Show();
-            }
+            Form form = new Order();
+            form.ShowDialog();
         }
 
         private void Return_Click(object sender, EventArgs e)
         {
-            // 메인 폼을 숨깁니다.
-            this.Hide();
-
-            // 판매 폼을 생성하고 표시합니다
-            using (Form form = new Return())
-            {
-                // ShowDialog()를 사용해 판매 폼을 모달로 표시합니다.
-                form.ShowDialog();
-
-                // 판매 폼이 닫히면 메인 폼을 다시 표시합니다.
-                this.Show();
-            }
+            Form form = new Return();
+            form.ShowDialog();
         }
 
         private void Stock_Click(object sender, EventArgs e)
         {
-            // 메인 폼을 숨깁니다.
-            this.Hide();
-
-            // 판매 폼을 생성하고 표시합니다
-            using (Form form = new Stock())
-            {
-                // ShowDialog()를 사용해 판매 폼을 모달로 표시합니다.
-                form.ShowDialog();
-
-                // 판매 폼이 닫히면 메인 폼을 다시 표시합니다.
-                this.Show();
-            }
+            Form form = new Stock();
+            form.ShowDialog();
         }
 
         private void setting_Click(object sender, EventArgs e)
         {
-            // 메인 폼을 숨깁니다.
-            this.Hide();
-
-            // 판매 폼을 생성하고 표시합니다
-            using (Form form = new setting(this))
-            {
-                // ShowDialog()를 사용해 판매 폼을 모달로 표시합니다.
-                form.ShowDialog();
-
-                // 판매 폼이 닫히면 메인 폼을 다시 표시합니다.
-                this.Show();
-            }
+            Form form = new setting(this);
+            form.ShowDialog();
         }
 
         private void sale_Click(object sender, EventArgs e)
         {
-            // 메인 폼을 숨깁니다.
-            this.Hide();
-
-            // 판매 폼을 생성하고 표시합니다
-            using (Form form = new sale())
-            {
-                // ShowDialog()를 사용해 판매 폼을 모달로 표시합니다.
-                form.ShowDialog();
-
-                // 판매 폼이 닫히면 메인 폼을 다시 표시합니다.
-                this.Show();
-            }
+            Form form = new sale();
+            form.ShowDialog();
         }
 
         private void receipt_Click(object sender, EventArgs e)
         {
-            // 메인 폼을 숨깁니다.
-            this.Hide();
-
-            // 판매 폼을 생성하고 표시합니다
-            using (Form form = new receipt())
-            {
-                // ShowDialog()를 사용해 판매 폼을 모달로 표시합니다.
-                form.ShowDialog();
-
-                // 판매 폼이 닫히면 메인 폼을 다시 표시합니다.
-                this.Show();
-            }
+            Form form = new receipt();
+            form.ShowDialog();
         }
 
         private void productinformation_Click(object sender, EventArgs e)
         {
-            // 메인 폼을 숨깁니다.
-            this.Hide();
-
-            // 판매 폼을 생성하고 표시합니다
-            using (Form form = new productinformation())
-            {
-                // ShowDialog()를 사용해 판매 폼을 모달로 표시합니다.
-                form.ShowDialog();
-
-                // 판매 폼이 닫히면 메인 폼을 다시 표시합니다.
-                this.Show();
-            }
+            Form form = new productinformation();
+            form.ShowDialog();
         }
 
         private void salesfigures_Click(object sender, EventArgs e)
         {
-            // 메인 폼을 숨깁니다.
-            this.Hide();
-
-            // 판매 폼을 생성하고 표시합니다
-            using (Form form = new salesfigures())
-            {
-                // ShowDialog()를 사용해 판매 폼을 모달로 표시합니다.
-                form.ShowDialog();
-
-                // 판매 폼이 닫히면 메인 폼을 다시 표시합니다.
-                this.Show();
-            }
+            Form form = new salesfigures();
+            form.ShowDialog(); 
         }
 
         private void finish_Click(object sender, EventArgs e)
@@ -158,18 +78,8 @@ namespace TP
 
         private void rateofreturn_Click(object sender, EventArgs e)
         {
-            // 메인 폼을 숨깁니다.
-            this.Hide();
-
-            // 판매 폼을 생성하고 표시합니다
-            using (Form form = new rateofreturn())
-            {
-                // ShowDialog()를 사용해 판매 폼을 모달로 표시합니다.
-                form.ShowDialog();
-
-                // 판매 폼이 닫히면 메인 폼을 다시 표시합니다.
-                this.Show();
-            }
+            Form form = new rateofreturn();
+            form.ShowDialog();
         }
     }
 }
